@@ -5,21 +5,21 @@
 use rand::Rng;
 use rand::{thread_rng};
 use gnuplot::{Figure, Graph, Caption, LineStyle, Dash};
-use nalgebra::{Matrix, U3, U1, MatrixArray};
+use nalgebra::SMatrix;
 use nalgebra::linalg::try_invert_to;
 
 const DT: f64 = 1.0;
 
-type M3 = Matrix<f64, U3, U3, MatrixArray<f64, U3, U3>>;
-type M1 = Matrix<f64, U1, U1, MatrixArray<f64, U1, U1>>;
-type M1x3 = Matrix<f64, U1, U3, MatrixArray<f64, U1, U3>>;
-type M3x1 = Matrix<f64, U3, U1, MatrixArray<f64, U3, U1>>;
+type M3x3 = SMatrix<f64, 3, 3>;
+type M1 = SMatrix<f64, 1, 1>;
+type M1x3 = SMatrix<f64, 1, 3>;
+type M3x1 = SMatrix<f64, 3, 1>;
 
-type F = M3;
+type F = M3x3;
 type H = M1x3;
-type Q = M3;
+type Q = M3x3;
 type R = M1;
-type P = M3;
+type P = M3x3;
 type X = M3x1;
 type S = M1;
 
@@ -70,7 +70,7 @@ impl KalmanFilter {
 
         let K = (self.p * self.h.transpose()) * s_inv;
         self.x = self.x + K * y;
-        let I = M3::identity();
+        let I = M3x3::identity();
         self.p = ((I - K * self.h) * self.p) *
                   (I - (K * self.h).transpose()) +
                   ((K * self.r) * K.transpose());
