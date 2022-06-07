@@ -162,7 +162,7 @@ fn main() {
 
     let mut fig = Figure::new();
     fig.axes2d()
-        .set_legend(Graph(0.5), Graph(0.9), &[], &[])
+        .set_legend(Graph(0.5), Graph(0.5), &[], &[])
         .lines(
             &range[..],
             &data[..],
